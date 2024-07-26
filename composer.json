@@ -1,0 +1,33 @@
+{
+    "name": "haschamedia/basecrypt",
+    "type": "library",
+    "description": "Base Crypt, Simple Encryption Code",
+    "keywords": ["haschamedia", "basecrypt", "laravel"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/haschamedia/basecrypt/issues",
+        "source": "https://github.com/haschamedia/basecrypt"
+    },
+    "authors": [
+        {
+            "name": "Fariz Huzairi",
+            "email": "farizhuzairi@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/database": "^11.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "BaseCrypt\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BaseCrypt\\BaseCryptServiceProvider"
+            ]
+        }
+    }
+}
