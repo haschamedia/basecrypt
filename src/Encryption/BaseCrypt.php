@@ -17,9 +17,7 @@ class BaseCrypt extends BaseCode
         string $mode = 'encrypt'
     ): string|array|null
     {
-        if(!isset(self::$crypt)){
-            self::$crypt = new self();
-        }
+        if(!isset(self::$crypt)) self::$crypt = new self();
 
         $instance = self::$crypt;
 
@@ -33,24 +31,30 @@ class BaseCrypt extends BaseCode
             $data = null;
         }
 
-        if($mode === 'encrypt'){
-            $return = $instance->encrypt($data, $key);
-            return (string) $return;
-        }
-        elseif($mode === 'decrypt'){
-            $return = $instance->decrypt($data, $key);
-            $jsonValidate = function ($d) use ($instance){
-                if($instance->isValidJson($d)){
-                    return (array) json_decode($d, true);
-                }
-                return (string) $d;
-            };
-            return $jsonValidate($return);
-        }
-        else{
-            throw new \Exception("Invalid data type result. #code", [
-                'mode' => $mode
-            ]);
+        try {
+            if($mode === 'encrypt'){
+                $return = $instance->encrypt($data, $key);
+                return (string) $return;
+            }
+            elseif($mode === 'decrypt'){
+                $return = $instance->decrypt($data, $key);
+                $jsonValidate = function ($d) use ($instance){
+                    if($instance->isValidJson($d)){
+                        return (array) json_decode($d, true);
+                    }
+                    return (string) $d;
+                };
+                return $jsonValidate($return);
+            }
+            else{
+                throw new \Exception("Invalid data type result. #code", [
+                    'mode' => $mode
+                ]);
+            }
+        } catch (\Throwable $th) {
+            // laravel support ...
+            \Illuminate\Support\Facades\Log::error($th->getMessage(), ['exception' => $th]);
+            return null;
         }
 
         return null;
